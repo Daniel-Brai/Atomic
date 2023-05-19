@@ -1,0 +1,42 @@
+    <%- include('../partials/head.ejs'); %>
+    <title>
+        <%= statusCode %> | Atomic
+    </title>
+</head>
+<body>
+    <%- include('../partials/navbar.ejs'); %>
+    <section class="bg-white dark:bg-gray-900">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
+            <div class="mx-auto max-w-screen-sm text-center">
+                <div class="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 mx-auto text-sm text-gray-700 bg-gray-100 rounded-full dark:bg-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700" role="alert">
+                    <span class="text-xs bg-primary-600 rounded-full text-white px-4 py-1.5 mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1);transform: ;msFilter:;"><path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 7h-2v6h6v-2h-4z"></path></svg>
+                    </span>
+                    <span class="text-sm font-medium">
+                        <%= timestamp %>
+                    </span>
+                </div>
+                <h1 class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500">
+                    <%= statusCode %>
+                </h1>
+                <% if (error) { %>
+                    <p class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white">
+                        <span>
+                            <%= error %>
+                        </span>
+                    </p>
+                <% } %>
+                <p class="mb-4 text-lg font-light text-gray-500 dark:text-gray-400">
+                    <%= message %>
+                </p>
+                <% if (statusCode === 404 || statusCode === 500) { %>
+                    <a href="/" class="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4">Go Back Home</a>
+                <% } else { %>
+                    <button onclick="history.back()" class="inline-flex text-white bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:focus:ring-primary-900 my-4">Go Back</button>
+                <% } %>
+            </div>
+        </div>
+    </section>
+<<<<<<< HEAD
+</body></html>
+
