@@ -17,5 +17,12 @@ Content-Type: application/json
 }
 
 ### Log out User
-GET http://localhost:3000/v1/api/account/logout
+GET http://localhost:3000/account/logout
 
+### Atomize a Long URL
+POST http://localhost:3000/v1/api/data/atomize
+Content-Type: application/json
+
+{
+  "longUrl": "https://apple.com/good"
+}

@@ -1,6 +1,7 @@
-import { IsUrl } from 'class-validator';
+import { IsNotEmpty, IsUrl } from 'class-validator';
 
 export class CreateLinkDto {
   @IsUrl()
+  @IsNotEmpty()
   longUrl: string;
 }

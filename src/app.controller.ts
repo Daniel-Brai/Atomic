@@ -10,10 +10,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { CreateUserDto } from './user/dtos/create-user.dto';
 import { LocalAuthGuard } from './auth/guards/local-auth.guard';
 import { AuthenticatedGuard } from './auth/guards/authenticated.guard';
+import { CreateLinkDto } from './link/dto/create-link.dto';
 
 @Controller()
 export class AppController {
@@ -37,6 +38,13 @@ export class AppController {
     return this.appService.getSignIn(res);
   }
 
+  @UseGuards(AuthenticatedGuard)
+  @Get('/account/logout')
+  @HttpCode(HttpStatus.OK)
+  logout(@Req() request: Request, @Res() response: Response) {
+    return this.appService.logOut(request, response);
+  }
+
   @Post('/v1/api/account/signup')
   @HttpCode(HttpStatus.OK)
   async signUP(@Body() user: CreateUserDto) {
@@ -46,14 +54,13 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('/v1/api/account/login')
   @HttpCode(HttpStatus.OK)
-  login(@Req() request) {
+  login(@Req() request: Request) {
     return this.appService.logIn(request);
   }
 
-  @UseGuards(AuthenticatedGuard)
-  @Get('/v1/api/account/logout')
-  @HttpCode(HttpStatus.OK)
-  logout(@Req() request) {
-    return this.appService.logOut(request);
+  @Post('/v1/api/data/atomize')
+  @HttpCode(HttpStatus.CREATED)
+  atomize(@Body() link: CreateLinkDto) {
+    return this.appService.atomizeUrl(link);
   }
 }

@@ -24,8 +24,8 @@ import {
   // @ts-ignore
   UpdateDateColumn,
 } from 'typeorm';
-import { Link } from '../../link/entities/link.entity';
 import { Exclude } from 'class-transformer';
+import { Link } from '../../link/entities/link.entity';
 import { hashPassword } from '../../utils/argon2';
 
 @Entity()

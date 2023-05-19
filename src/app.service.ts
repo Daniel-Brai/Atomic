@@ -3,10 +3,15 @@ import { Response, Request } from 'express';
 import { CreateUserDto } from './user/dtos/create-user.dto';
 import { UsersService } from './user/users.service';
 import { User } from './user/entities/users.entity';
+import { LinkService } from './link/link.service';
+import { CreateLinkDto } from './link/dto/create-link.dto';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly linkService: LinkService,
+  ) {}
 
   getRoot(res: Response) {
     return res.render('index', {
@@ -28,16 +33,21 @@ export class AppService {
     return this.usersService.create(user);
   }
 
-  logIn(request: Request): Express.User {
-    return request.user;
+  logIn(request: Request) {
+    return { message: 'Login successful' };
   }
 
-  logOut(request: Request) {
-    return request.session.destroy((err: Error) => {
+  logOut(request: Request, response: Response) {
+    request.session.destroy((err: Error) => {
       if (err) {
         return { message: 'Oops! Something went wrong!' };
       }
       return { message: 'Logged out successfully!' };
     });
+    response.redirect('/');
+  }
+
+  atomizeUrl(link: CreateLinkDto) {
+    return this.linkService.create(link);
   }
 }

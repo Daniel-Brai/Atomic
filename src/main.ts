@@ -12,6 +12,8 @@ import { DatabaseService as database } from './database/database.service';
 import { HttpExceptionFilter } from './libs/filters/http-exception.filter';
 import { createClient } from 'redis';
 import { join } from 'path';
+import { IsAuthenticated } from './auth/helpers/auth.helper';
+import { Request, Response, NextFunction } from 'express';
 import * as createRedisStore from 'connect-redis';
 import * as cookieParser from 'cookie-parser';
 import * as compression from 'compression';
@@ -59,6 +61,10 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(cookieParser());
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    res.locals.isAuthenticated = IsAuthenticated.bind(null, req);
+    next();
+  });
   app.use(
     helmet.contentSecurityPolicy({
       useDefaults: true,

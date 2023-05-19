@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./apps/client/pages/**/*.{ejs, html}'],
+  content: [
+    './apps/client/pages/**/*.{ejs, html}',
+    './apps/client/public/assets/javascript/form_submissions/login/**/*.js',
+  ],
   darkMode: 'class',
   theme: {
     extend: {
@@ -20,7 +23,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      'body': [
+      body: [
         'Inter',
         'ui-sans-serif',
         'system-ui',
@@ -37,7 +40,7 @@ module.exports = {
         'Segoe UI Symbol',
         'Noto Color Emoji',
       ],
-      'sans': [
+      sans: [
         'Inter',
         'ui-sans-serif',
         'system-ui',
@@ -57,5 +60,4 @@ module.exports = {
     },
   },
   plugins: [require('flowbite/plugin')],
-}
-
+};
