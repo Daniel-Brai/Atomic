@@ -1,7 +1,11 @@
 {
   "name": "atomic",
   "version": "0.0.1",
+<<<<<<< HEAD
   "description": "A URL shortening service with a focus on high availability, and fault tolerance",
+=======
+  "description": "A URL shortening service with a focus on high availability, ",
+>>>>>>> 55b3006e20e160727d20a3eff55bb788843806ee
   "author": "",
   "private": true,
   "license": "UNLICENSED",

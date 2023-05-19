@@ -39,3 +39,6 @@ lerna-debug.log*
 
 # Databases and Migrations
 atomic.db
+
+# pnpm
+pnpm-lock.yaml
