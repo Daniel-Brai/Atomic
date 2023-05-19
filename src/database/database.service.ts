@@ -1,6 +1,8 @@
 import { Logger } from '@nestjs/common';
-import { cwd } from 'process';
 import { DataSource } from 'typeorm';
+import { User } from '../user/entities/users.entity';
+import { Link } from '../link/entities/link.entity';
+import { resolve } from 'node:path';
 
 export class DatabaseService {
   static async connect(): Promise<void> {
@@ -8,8 +10,8 @@ export class DatabaseService {
     const ConnectionSource = new DataSource({
       type: 'sqlite',
       driver: require('sqlite3'),
-      database: '../atomic.db',
-      entities: [cwd() + '/apps/server/src/**/*.entity.js'],
+      database: resolve(__dirname, '../atomic.db'),
+      entities: [User, Link],
       synchronize: Boolean(process.env.DB_SYNC),
       logging: Boolean(process.env.DB_LOGGING),
     });

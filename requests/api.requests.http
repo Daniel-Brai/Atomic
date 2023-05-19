@@ -1,0 +1,21 @@
+### Register User
+POST http://localhost:3000/v1/api/account/signup
+Content-Type: application/json
+
+{
+  "username": "DannyBrai",
+  "password": "TheFlashsucksnow%2018"
+}
+
+### Log in User
+POST http://localhost:3000/v1/api/account/login
+Content-Type: application/json
+
+{
+  "username": "DannyBrai",
+  "password": "TheFlashsucksnow%2018"
+}
+
+### Log out User
+GET http://localhost:3000/v1/api/account/logout
+

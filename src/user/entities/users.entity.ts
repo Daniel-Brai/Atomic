@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   Column,
@@ -25,13 +26,14 @@ import {
 } from 'typeorm';
 import { Link } from '../../link/entities/link.entity';
 import { Exclude } from 'class-transformer';
+import { hashPassword } from '../../utils/argon2';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   username: string;
 
   @Column({ nullable: false })
@@ -49,4 +51,9 @@ export class User {
   @OneToMany(() => Link, (link) => link.id)
   @JoinColumn()
   links: Link[];
+
+  @BeforeInsert()
+  async Hash() {
+    this.password = await hashPassword(this.password);
+  }
 }
