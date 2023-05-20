@@ -50,4 +50,9 @@ export class AppService {
   atomizeUrl(link: CreateLinkDto) {
     return this.linkService.create(link);
   }
+
+  async getLongUrl(shortUrl: string, response: Response) {
+    const link = await this.linkService.findOneByShortUrl(shortUrl);
+    response.redirect(link.longUrl);
+  }
 }

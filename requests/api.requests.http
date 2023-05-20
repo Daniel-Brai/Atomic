@@ -24,5 +24,10 @@ POST http://localhost:3000/v1/api/data/atomize
 Content-Type: application/json
 
 {
-  "longUrl": "https://apple.com/good"
+  "longUrl": "https://github.com/goforprodev"
 }
+
+### Visit an Atomized URL
+GET http://localhost:3000/g7YEe
+
+

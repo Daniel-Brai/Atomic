@@ -33,8 +33,8 @@ export class TicketServer {
     } while (value > 0);
 
     if (result == '') {
-      // TODO: Remove Fallback when I have gotten the algorithm to product a non-empty result all the time
-      const id = customAlphabet(CHARACTERS, 6);
+      // TODO: Remove Fallback when I have gotten the algorithm to produce a non-empty result all the time
+      const id = customAlphabet(CHARACTERS, 5);
       return id();
     } else {
       return result;

@@ -13,13 +13,13 @@ import { HttpExceptionFilter } from './libs/filters/http-exception.filter';
 import { createClient } from 'redis';
 import { join } from 'path';
 import { IsAuthenticated } from './auth/helpers/auth.helper';
-import { Request, Response, NextFunction } from 'express';
 import * as createRedisStore from 'connect-redis';
 import * as cookieParser from 'cookie-parser';
 import * as compression from 'compression';
 import * as passport from 'passport';
 import * as session from 'express-session';
 import * as helmet from 'helmet';
+import * as exp from 'express';
 
 const logger: Logger = new Logger();
 const PORT: number = +process.env.PORT || 3000;
@@ -61,10 +61,11 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(cookieParser());
-  app.use((req: Request, res: Response, next: NextFunction) => {
+  app.use((req: exp.Request, res: exp.Response, next: exp.NextFunction) => {
     res.locals.isAuthenticated = IsAuthenticated.bind(null, req);
     next();
   });
+  app.use(exp.urlencoded({ extended: true }));
   app.use(
     helmet.contentSecurityPolicy({
       useDefaults: true,

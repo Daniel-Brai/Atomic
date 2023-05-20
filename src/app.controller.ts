@@ -8,6 +8,7 @@ import {
   Res,
   Req,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response, Request } from 'express';
@@ -24,6 +25,15 @@ export class AppController {
   @HttpCode(HttpStatus.OK)
   root(@Res() res: Response) {
     return this.appService.getRoot(res);
+  }
+
+  @Get(':shortUrl')
+  @HttpCode(HttpStatus.PERMANENT_REDIRECT)
+  getOriginalUrl(
+    @Param('shortUrl') shortUrl: string,
+    @Res() response: Response,
+  ) {
+    return this.appService.getLongUrl(shortUrl, response);
   }
 
   @Get('/account/signup')

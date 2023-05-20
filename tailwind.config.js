@@ -2,7 +2,7 @@
 module.exports = {
   content: [
     './apps/client/pages/**/*.{ejs, html}',
-    './apps/client/public/assets/javascript/form_submissions/login/**/*.js',
+    './apps/client/public/assets/javascript/form_submission/**/*{.js, .min.js}',
   ],
   darkMode: 'class',
   theme: {
