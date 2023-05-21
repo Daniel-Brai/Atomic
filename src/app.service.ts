@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Response, Request } from 'express';
+import { Express, Response, Request } from 'express';
 import { CreateUserDto } from './user/dtos/create-user.dto';
 import { UsersService } from './user/users.service';
 import { User } from './user/entities/users.entity';
@@ -13,9 +13,15 @@ export class AppService {
     private readonly linkService: LinkService,
   ) {}
 
-  getRoot(res: Response) {
+  async getRoot(res: Response, req: Request) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const userId = req.user ? req.user.id : '';
+    const links = await this.getUserLinks(userId);
     return res.render('index', {
       title: 'Atomic - Simplify the Web with Smart URLs.',
+      userId: userId,
+      links: links,
     });
   }
   getSignUp(res: Response) {
@@ -33,8 +39,8 @@ export class AppService {
     return this.usersService.create(user);
   }
 
-  logIn(request: Request) {
-    return { message: 'Login successful' };
+  logIn(request: Request): Express.User {
+    return request.user;
   }
 
   logOut(request: Request, response: Response) {
@@ -54,5 +60,9 @@ export class AppService {
   async getLongUrl(shortUrl: string, response: Response) {
     const link = await this.linkService.findOneByShortUrl(shortUrl);
     response.redirect(link.longUrl);
+  }
+
+  async getUserLinks(userId: string) {
+    return await this.linkService.findByUserId(userId);
   }
 }

@@ -3,9 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { User } from '../../user/entities/users.entity';
 import { TicketServer } from '../../libs/generators/ticket.server';
 
 const ticketServer = new TicketServer();
@@ -27,6 +30,9 @@ export class Link {
 
   @Column({ type: 'int', default: 20 })
   public limit: number;
+
+  @Column({ nullable: true })
+  public userId: string;
 
   @CreateDateColumn()
   createdAt: Date;

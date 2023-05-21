@@ -23,8 +23,8 @@ export class AppController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  root(@Res() res: Response) {
-    return this.appService.getRoot(res);
+  root(@Res() res: Response, @Req() req: Request) {
+    return this.appService.getRoot(res, req);
   }
 
   @Get(':shortUrl')
@@ -73,4 +73,11 @@ export class AppController {
   atomize(@Body() link: CreateLinkDto) {
     return this.appService.atomizeUrl(link);
   }
+
+  // @UseGuards(AuthenticatedGuard)
+  // @Get('/v1/api/data/:userId/links')
+  // @HttpCode(HttpStatus.OK)
+  // getLinks(@Param('userId') userId: string) {
+  //   return this.appService.getUserLinks(userId);
+  // }
 }

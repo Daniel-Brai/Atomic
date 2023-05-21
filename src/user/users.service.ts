@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { User } from './entities/users.entity';
 import { Repository } from 'typeorm';
@@ -34,7 +30,7 @@ export class UsersService {
       where: { username },
     });
     if (!user) {
-      throw new NotFoundException('The User does not exist!');
+      throw new BadRequestException('The User does not exist!');
     }
     return user;
   }

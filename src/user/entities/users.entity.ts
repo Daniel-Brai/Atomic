@@ -34,11 +34,11 @@ export class User {
   id: string;
 
   @Column({ nullable: false, unique: true })
-  username: string;
+  public username: string;
 
   @Column({ nullable: false })
   @Exclude()
-  password: string;
+  public password: string;
 
   @CreateDateColumn()
   @Exclude()
@@ -48,9 +48,9 @@ export class User {
   @Exclude()
   updatedAt: Date;
 
-  @OneToMany(() => Link, (link) => link.id)
+  @OneToMany(() => Link, (link) => link.userId)
   @JoinColumn()
-  links: Link[];
+  public links: Link[];
 
   @BeforeInsert()
   async Hash() {

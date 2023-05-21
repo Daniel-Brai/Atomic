@@ -47,4 +47,17 @@ export class LinkService {
     await this.linkRepository.save(updatedUrl);
     return updatedUrl;
   }
+
+  async findByUserId(id: string): Promise<Link[] | null> {
+    if (!id) {
+      return null;
+    }
+    const links = await this.linkRepository.find({
+      where: { userId: id },
+    });
+    if (!links) {
+      return null;
+    }
+    return links;
+  }
 }

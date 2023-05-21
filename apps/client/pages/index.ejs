@@ -6,6 +6,7 @@
 <body class="">
 <%- include('./partials/navbar.ejs'); %>
 <section class="bg-white dark:bg-gray-900 mt-24">
+	<input type="hidden" id="user_id" value="<%= userId %>">
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
         <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Shorten. Share. Simplify.</h1>
         <p class="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">Transform Long Links into Bite-sized Brilliance with the power of Atomic</p>
@@ -18,8 +19,19 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="fill-gray-500" width="24" height="24" viewBox="0 0 24 24"><path d="M8.465 11.293c1.133-1.133 3.109-1.133 4.242 0l.707.707 1.414-1.414-.707-.707c-.943-.944-2.199-1.465-3.535-1.465s-2.592.521-3.535 1.465L4.929 12a5.008 5.008 0 0 0 0 7.071 4.983 4.983 0 0 0 3.535 1.462A4.982 4.982 0 0 0 12 19.071l.707-.707-1.414-1.414-.707.707a3.007 3.007 0 0 1-4.243 0 3.005 3.005 0 0 1 0-4.243l2.122-2.121z"></path><path d="m12 4.929-.707.707 1.414 1.414.707-.707a3.007 3.007 0 0 1 4.243 0 3.005 3.005 0 0 1 0 4.243l-2.122 2.121c-1.133 1.133-3.109 1.133-4.242 0L10.586 12l-1.414 1.414.707.707c.943.944 2.199 1.465 3.535 1.465s2.592-.521 3.535-1.465L19.071 12a5.008 5.008 0 0 0 0-7.071 5.006 5.006 0 0 0-7.071 0z"></path></svg>
         			</div>
         			<input type="url" name="longUrl" id="atomize_input" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter a link" required>
-        			<button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Atomize link</button>
+					<% if (!isAuthenticated()) { %>
+						<button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Atomize link</button>
+					<% } %>
     			</div>
+				<% if (isAuthenticated()) { %>
+					<div class="relative my-4">
+						<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+							<svg class="fill-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="m21.426 11.095-17-8A.999.999 0 0 0 3.03 4.242L4.969 12 3.03 19.758a.998.998 0 0 0 1.396 1.147l17-8a1 1 0 0 0 0-1.81zM5.481 18.197l.839-3.357L12 12 6.32 9.16l-.839-3.357L18.651 12l-13.17 6.197z"></path></svg>
+						</div>
+						<input type="number" name="limit" id="atomize_input_2" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter a share limit">
+					</div>
+					<button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-base px-5 py-3 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Atomize link</button>
+				<% } %>
 		    </form>
 			<div id="message-renderer" class="my-4 w-full hidden">
 				<div class="flex items-center mx-auto w-full p-4 mb-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
@@ -29,8 +41,7 @@
 					</div>
 					<button id="copybtn" type="button" class="ml-auto -mx-1.5 -my-1.5 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" aria-label="Copy Link">
 						<span class="sr-only">Copy Link Button</span>
-						<span id="copyIcon">
-						</span>
+						<span id="copyIcon"></span>
 					</button>
 				</div>
 				<% if (!isAuthenticated()) { %>
@@ -39,8 +50,26 @@
 				<% } %>
 			</div>
         </div>
-    </div>
+
+		<% if (isAuthenticated()) { %>
+			<div id="saved-links">
+				<p class="mt-8 text-gray-500 dark: text-gray-400">Your Links</p>
+				<div class="mt-4">
+					<% if (links && links.length > 0) { %>
+						<ul>
+							<% links.forEach(function(link) { %>
+								<li><a class="text-gray-500 underline" href="<%= link.longUrl %>"><%= link.longUrl %></a></li>
+							<% }); %>
+						</ul>
+					<% } else { %>
+						<p class="text-gray-600">No links found.</p>
+					<% } %>
+				</div>
+			</div>
+		<% } %>
+	</div>
 </section>
+
 <script src="/javascript/form_submissions/index/submit.min.js"></script>
 </body>
 </html>
