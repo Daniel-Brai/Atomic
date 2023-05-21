@@ -25,7 +25,9 @@ const logger: Logger = new Logger();
 const PORT: number = +process.env.PORT || 3000;
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    cors: true,
+  });
   const reflector = app.get(Reflector);
 
   const configService = app.get(ConfigService);
