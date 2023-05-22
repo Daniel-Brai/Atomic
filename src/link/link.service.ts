@@ -36,16 +36,8 @@ export class LinkService {
         'Oops! Seems like the atomic url has expired. Register to set higher limits for your clicks.',
       );
     }
-    const updatedUrl = await this.linkRepository.preload({
-      id: foundUrl.id,
-      ...foundUrl,
-    });
-    await this.linkRepository.update(
-      { id: updatedUrl.id },
-      { clicks: updatedUrl.clicks + 1 },
-    );
-    await this.linkRepository.save(updatedUrl);
-    return updatedUrl;
+    foundUrl.clicks += 1;
+    return await this.linkRepository.save(foundUrl);
   }
 
   async findByUserId(id: string): Promise<Link[] | null> {
@@ -59,5 +51,17 @@ export class LinkService {
       return null;
     }
     return links;
+  }
+
+  async remove(id: string) {
+    const foundUrl = await this.linkRepository.findOne({
+      where: { id: id },
+    });
+    if (!foundUrl) {
+      throw new NotFoundException(
+        "Oops! Seems like the atomic url either doesn't exist",
+      );
+    }
+    return await this.linkRepository.delete({ id: foundUrl.id });
   }
 }

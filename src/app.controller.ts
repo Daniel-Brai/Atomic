@@ -9,6 +9,7 @@ import {
   Req,
   UseGuards,
   Param,
+  Delete,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Response, Request } from 'express';
@@ -55,9 +56,16 @@ export class AppController {
     return this.appService.logOut(request, response);
   }
 
+  @UseGuards(AuthenticatedGuard)
+  @Get('/me/links/:id/delete')
+  @HttpCode(HttpStatus.OK)
+  async deleteLink(@Param('id') id: string, @Res() response: Response) {
+    return await this.appService.deleteLink(id, response);
+  }
+
   @Post('/v1/api/account/signup')
   @HttpCode(HttpStatus.OK)
-  async signUP(@Body() user: CreateUserDto) {
+  async signUp(@Body() user: CreateUserDto) {
     return await this.appService.signUp(user);
   }
 
@@ -73,11 +81,4 @@ export class AppController {
   atomize(@Body() link: CreateLinkDto) {
     return this.appService.atomizeUrl(link);
   }
-
-  // @UseGuards(AuthenticatedGuard)
-  // @Get('/v1/api/data/:userId/links')
-  // @HttpCode(HttpStatus.OK)
-  // getLinks(@Param('userId') userId: string) {
-  //   return this.appService.getUserLinks(userId);
-  // }
 }

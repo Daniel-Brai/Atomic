@@ -18,10 +18,12 @@ export class AppService {
     // @ts-ignore
     const userId = req.user ? req.user.id : '';
     const links = await this.getUserLinks(userId);
+    const origin = req.headers.origin;
     return res.render('index', {
       title: 'Atomic - Simplify the Web with Smart URLs.',
       userId: userId,
       links: links,
+      origin: origin,
     });
   }
   getSignUp(res: Response) {
@@ -64,5 +66,10 @@ export class AppService {
 
   async getUserLinks(userId: string) {
     return await this.linkService.findByUserId(userId);
+  }
+
+  async deleteLink(linkId: string, response: Response) {
+    await this.linkService.remove(linkId);
+    response.redirect('/');
   }
 }

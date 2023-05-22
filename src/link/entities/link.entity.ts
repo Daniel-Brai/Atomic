@@ -17,7 +17,7 @@ const ticketServer = new TicketServer();
 export class Link {
   @PrimaryGeneratedColumn('uuid')
   @Exclude()
-  public id: number;
+  public id: string;
 
   @Column()
   public longUrl: string;

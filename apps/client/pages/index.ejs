@@ -53,16 +53,42 @@
 
 		<% if (isAuthenticated()) { %>
 			<div id="saved-links">
-				<p class="mt-8 text-gray-500 dark: text-gray-400">Your Links</p>
-				<div class="mt-4">
+				<div class="w-full mt-8 flex justify-center">
 					<% if (links && links.length > 0) { %>
-						<ul>
+						<div class="max-w-full divide-y divide-gray-200 dark:divide-gray-700">
+							<div class="flex items-center justify-between">
+								<p class="text-gray-500">Original URL</p>
+								<p class="text-gray-500">Atomic URL</p>
+								<p class="text-gray-500">Clicks</p>
+								<p class="text-gray-500">Action</p>
+							</div>
 							<% links.forEach(function(link) { %>
-								<li><a class="text-gray-500 underline" href="<%= link.longUrl %>"><%= link.longUrl %></a></li>
+								<div class="py-3 sm:py-4">
+									<div class="w-full flex items-center justify-between space-x-8">
+										<div class="w-full">
+											<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+												<a class="text-gray-500 underline" href="<%= link.longUrl %>"><%= link.longUrl %></a>
+											</p>
+										</div>
+										<div class="w-full">
+											<p class="text-sm text-gray-500 truncate dark:text-gray-400">
+												<a class="text-gray-500 underline" href="<%= origin %>/<%= link.shortUrl %>"><%= origin %>/<%= link.shortUrl %></a>
+											</p>
+										</div>
+										<div class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                							<span class="w-2 h-2 mr-1 bg-green-500 rounded-full"></span>
+                							<%= link.clicks %>
+            							</div>
+										<a class="inline-flex items-center justify-center p-2 rounded-lg bg-gray-100" href="/me/links/<%= link.id %>/delete">
+											<svg class="fill-gray-400 hover:fill-gray-500" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 7H5v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7H6zm10.618-3L15 2H9L7.382 4H3v2h18V4z"></path></svg>
+										</a>
+									</div>
+								</div>
 							<% }); %>
-						</ul>
+						</div>
+
 					<% } else { %>
-						<p class="text-gray-600">No links found.</p>
+						<p class="mx-auto px-2 py-1 text-sm text-white text-center bg-blue-500 rounded-full">No links found.</p>
 					<% } %>
 				</div>
 			</div>

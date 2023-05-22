@@ -1,0 +1,15 @@
+version: '3'
+services:
+  app:
+    image: atomic
+    ports:
+      - '3000'
+    depends_on:
+      - redis
+      - db
+  redis:
+    image: redis:alpine3.16
+  db:
+    image: sqlite
+    volumes:
+      - ./data:/database

@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CacheModule } from '@nestjs/cache-manager';
 import { AppController } from './app.controller';
@@ -10,6 +15,7 @@ import { UsersModule } from './user/users.module';
 import { LinkModule } from './link/link.module';
 import type { RedisClientOptions } from 'redis';
 import * as redisStore from 'cache-manager-redis-store';
+import { AuthMiddleware } from './auth/middlewares/auth.middleware';
 
 @Module({
   imports: [
@@ -30,4 +36,10 @@ import * as redisStore from 'cache-manager-redis-store';
   controllers: [AppController],
   providers: [AppService, AppClusterService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .exclude({ path: '/', method: RequestMethod.ALL });
+  }
+}

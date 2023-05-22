@@ -30,7 +30,7 @@ export class UsersService {
       where: { username },
     });
     if (!user) {
-      throw new BadRequestException('The User does not exist!');
+      throw new BadRequestException("Oops! Seems you don't have an account.");
     }
     return user;
   }
